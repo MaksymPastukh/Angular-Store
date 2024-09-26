@@ -1,0 +1,17 @@
+@import "../../../../assets/styles/auth";
+
+.signup {
+  margin-top: 1rem;
+  .container {
+    display: flex;
+
+    .page-image {
+      margin-left: 22.2rem;
+
+      img {
+        margin-top: 1rem;
+        vertical-align: bottom;
+      }
+    }
+  }
+}

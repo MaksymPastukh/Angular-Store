@@ -1,3 +1,6 @@
+@import "mixin";
+@import "variables";
+
 html, body {
   margin: 0;
   padding: 0;
@@ -32,4 +35,41 @@ html {
 .container {
   max-width: $container-with;
   margin: 0 auto;
+}
+
+
+input {
+  box-sizing: border-box;
+  border: .2rem solid #2a592e;
+  border-radius: 3px;
+  padding: 1.7rem 2rem;
+  font: 400 14px "Montserrat", sans-serif;
+  color: $grey-text-color;
+}
+
+.button {
+  text-align: center;
+  border-radius: 5px;
+  padding: 1.5rem;
+  background: #456f49;
+  box-sizing: border-box;
+  cursor: pointer;
+  border: 0;
+  font: 400 16px "Montserrat", sans-serif;
+  color: #fff;
+
+  &:disabled {
+    background: grey;
+    cursor: not-allowed;
+  }
+}
+
+
+.mat-menu-item {
+  font: 400 15px "Montserrat", sans-serif;
+
+  a {
+    text-decoration: none;
+    color: $grey-text-color;
+  }
 }
