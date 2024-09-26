@@ -1,13 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
+import {CategoryType} from "../../../../types/category.type";
+import {LayoutComponent} from "../layout.component";
 
 @Component({
   selector: 'app-footer',
   templateUrl: './footer.component.html',
   styleUrls: ['./footer.component.scss']
 })
-export class FooterComponent implements OnInit {
+export class FooterComponent implements OnInit{
 
-  constructor() { }
+  @Input('category')
+  public categories!: CategoryType[]
+
+  constructor() {
+  }
 
   ngOnInit(): void {
   }

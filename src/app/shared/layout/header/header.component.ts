@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
+import {CategoryService} from "../../services/category.service";
+import {CategoryType} from "../../../../types/category.type";
+import {LayoutComponent} from "../layout.component";
 
 @Component({
   selector: 'app-header',
@@ -7,7 +10,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor() { }
+  @Input('category')
+  public categories!: CategoryType[]
+
+  constructor() {
+  }
 
   ngOnInit(): void {
   }

@@ -32,13 +32,13 @@ header.header {
             border-bottom: 1px solid transparent;
 
             &.active {
-              border-bottom-color: $base-text-color;
+              border-bottom-color: $green-text-color;
             }
 
 
             a {
               font-size: 16px;
-              color: $base-text-color;
+              color: $green-text-color;
               cursor: pointer;
               text-decoration: none;
             }
@@ -49,7 +49,7 @@ header.header {
 
       .header-top-phone {
         font-size: 16px;
-        color: $base-text-color;
+        color: $green-text-color;
         text-decoration: none;
         margin-right: 5.9rem;
       }
@@ -76,7 +76,7 @@ header.header {
             align-items: center;
             justify-content: center;
             font-size: 1.2rem;
-            color: $base-text-color;
+            color: $green-text-color;
             border-radius: 50%;
             background: #86D5B9;
           }
@@ -104,12 +104,12 @@ header.header {
             border-bottom: 1px solid transparent;
 
             &.active {
-              border-bottom-color: $base-text-color;
+              border-bottom-color: $green-text-color;
             }
 
             a {
               font-size: 16px;
-              color: $base-text-color;
+              color: $green-text-color;
               cursor: pointer;
               text-decoration: none;
             }
@@ -121,14 +121,14 @@ header.header {
         position: relative;
 
         input {
-          border: 1px solid $base-text-color;
+          border: 1px solid $green-text-color;
           border-radius: 30px;
           width: 21.4rem;
           height: 4.1rem;
           box-sizing: border-box;
           padding: 1rem 1rem 1rem 4.3rem;
           font-size: 16px;
-          color: $base-text-color;
+          color: $green-text-color;
           outline: none;
 
 

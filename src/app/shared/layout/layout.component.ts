@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {CategoryType} from "../../../types/category.type";
+import {CategoryService} from "../services/category.service";
 
 @Component({
   selector: 'app-layout',
@@ -6,9 +8,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LayoutComponent implements OnInit {
 
-  constructor() { }
+  public categories: CategoryType[] = []
+
+  constructor(private categoryServices: CategoryService) { }
 
   ngOnInit(): void {
+    this.categoryServices.getCategories()
+      .subscribe((result: CategoryType[]) => {
+        this.categories = result
+        console.log(this.categories)
+      })
+  }
+
+  getCategories() {
+    return this.categories
   }
 
 }
