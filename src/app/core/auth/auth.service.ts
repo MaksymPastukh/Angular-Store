@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Observable, Subject} from "rxjs";
+import {Observable, Subject, throwError} from "rxjs";
 import {LoginResponseType} from "../../../types/login-response.type";
 import {DefaultResponseType} from "../../../types/default-response.type";
 import {environment} from "../../../environments/environment";
@@ -30,6 +30,26 @@ export class AuthService {
     })
   }
 
+  public signup(email: string, password: string, passwordRepeat: string): Observable<DefaultResponseType | LoginResponseType> {
+    return this.http.post<DefaultResponseType | LoginResponseType>(environment.api + 'signup', {
+      email,
+      password,
+      passwordRepeat
+    })
+  }
+
+
+  public logout(): Observable<DefaultResponseType> {
+    const tokens = this.getTokens()
+    if (tokens && tokens.refreshToken) {
+      return this.http.post<DefaultResponseType>(environment.api + 'logout', {
+        refreshToken: tokens.refreshToken
+      })
+    }
+    throw throwError(() => 'Can not find token')
+
+  }
+
   public getIsLoggedIn(): boolean {
     return this.isLogged
   }
@@ -55,11 +75,12 @@ export class AuthService {
     }
   }
 
-  get userId() : null | string {
+  get userId(): null | string {
     return localStorage.getItem(this.userIdKey)
   }
+
   set userId(id: string | null) {
-    if(id) {
+    if (id) {
       localStorage.setItem(this.userIdKey, id)
     } else {
       localStorage.removeItem(this.userIdKey)

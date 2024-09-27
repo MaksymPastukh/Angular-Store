@@ -62,7 +62,6 @@ export class LoginComponent implements OnInit {
           },
           error: (errorResponse: HttpErrorResponse) => {
             if (errorResponse.error && errorResponse.error.message) {
-              this._snackBar.open(`Ошибка при авторизации`)
               this._snackBar.open(errorResponse.error.message)
             } else {
               this._snackBar.open(`Ошибка при авторизации`)
@@ -71,5 +70,7 @@ export class LoginComponent implements OnInit {
         })
     }
   }
+
+
 
 }

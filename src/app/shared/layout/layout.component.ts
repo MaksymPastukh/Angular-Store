@@ -16,7 +16,6 @@ export class LayoutComponent implements OnInit {
     this.categoryServices.getCategories()
       .subscribe((result: CategoryType[]) => {
         this.categories = result
-        console.log(this.categories)
       })
   }
 

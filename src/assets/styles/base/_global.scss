@@ -47,6 +47,18 @@ input {
   color: $grey-text-color;
 }
 
+.small-input {
+  border: 1px solid #6cac72;
+  border-radius: 5px;
+  width: 4rem;
+  height: 2.8rem;
+  text-align: center;
+  padding: .2rem;
+  box-sizing: border-box;
+  font: 400 1.8rem "Montserrat", sans-serif;
+  color: $green-text-color;
+}
+
 .button {
   text-align: center;
   border-radius: 5px;
@@ -62,6 +74,11 @@ input {
     background: grey;
     cursor: not-allowed;
   }
+}
+
+a.button {
+  text-decoration: none;
+  display: inline-block;
 }
 
 

@@ -1,3 +1,5 @@
+@import "variables";
+
 @mixin respond($breakpoint) {
   @if $breakpoint == phone {
     @media only screen and (max-width: 450px) {
@@ -34,4 +36,9 @@
       @content
     }
   }
+}
+
+@mixin head-lora-32 {
+  font: 400 3.2rem / 1.3 "Lora", sans-serif;
+  color: $green-text-color;
 }
