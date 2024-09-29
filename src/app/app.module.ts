@@ -13,6 +13,7 @@ import {MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule} from "@angular/materia
 import {MatMenuModule} from "@angular/material/menu";
 import {MatIconModule} from "@angular/material/icon";
 import {SharedModule} from "./shared/shared.module";
+import {CarouselModule} from "ngx-owl-carousel-o";
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import {SharedModule} from "./shared/shared.module";
     MatSnackBarModule,
     MatMenuModule,
     BrowserAnimationsModule,
+    CarouselModule,
     MatIconModule,
     SharedModule,
     AppRoutingModule

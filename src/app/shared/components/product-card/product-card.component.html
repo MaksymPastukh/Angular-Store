@@ -1,4 +1,4 @@
-<div class="product-card">
+<div class="product-card" *ngIf="product">
   <div class="product-card-favorite">
     <!--    <span>-->
     <!--      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">-->
@@ -19,13 +19,13 @@
      </span>
   </div>
 
-  <div class="product-card-image" style="background-image: url()"></div>
+  <div class="product-card-image" style="background-image: url({{serverStaticPath + product.image}})"></div>
 
-  <div class="product-card-name">Сансевиерия трехпучковая Муншайн</div>
+  <div class="product-card-name">{{product.name}}</div>
 
   <div class="product-card-info">
     <div class="product-card-price">
-      27 BYN
+      {{ product.price }} BYN
     </div>
     <div class="product-card-action">
       <button class="button">В корзину</button>
@@ -39,7 +39,7 @@
           <path d="M9.14019 3V0H0V3H9.14019Z" fill="#9AA89B"/>
         </svg>
       </div>
-      <input type="text" class="small-input" value="1">
+      <input type="text" class="small-input" [(ngModel)]="count">
       <div>
         <svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M7.34934 12V7.20896H12.1406V4.81343H7.34934V0H4.95369V4.81343H0.140625V7.20896H4.95369V12H7.34934Z"
@@ -47,7 +47,7 @@
         </svg>
       </div>
     </div>
-    <a [routerLink]="'/product/id?'" class="product-card-detail">
+    <a [routerLink]="'/product/' + product.url" class="product-card-detail">
       <svg width="18" height="4" viewBox="0 0 18 4" fill="none" xmlns="http://www.w3.org/2000/svg">
         <circle cx="2.66699" cy="2" r="2" fill="#9AA89B"/>
         <circle cx="9.33398" cy="2" r="2" fill="#9AA89B"/>

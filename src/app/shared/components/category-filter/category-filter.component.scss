@@ -1,0 +1,70 @@
+@import "../../../../assets/styles/base/variables";
+
+.catalog-filter {
+  border-radius: 5px;
+  margin-bottom: 1.2rem;
+  font-size: 1.6rem;
+  color: $grey-text-color;
+
+
+  .catalog-filter-head {
+    background: #b6d5b9;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.2rem 2.3rem;
+    cursor: pointer;
+
+    svg {
+      margin-top: .2rem;
+    }
+  }
+
+  &.open .catalog-filter-head {
+    border-radius: 5px 5px 0 0;
+  }
+
+  .catalog-filter-body {
+    display: none;
+    border: 1px solid #b6d5b9;
+    border-radius: 0 0 5px 5px;
+    padding: 1.2rem 1.6rem;
+
+
+    .catalog-filter-checkbox {
+      display: flex;
+      align-items: baseline;
+      margin-bottom: 1.9rem;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      input {
+        margin-right: 1rem;
+      }
+    }
+
+    .catalog-filter-from-to {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+
+  &.open .catalog-filter-body {
+    display: block;
+  }
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
