@@ -8,6 +8,7 @@ import {environment} from "../../../environments/environment";
 @Injectable({
   providedIn: 'root'
 })
+
 export class AuthService {
   public accessTokenKey: string = 'accessToken'
   public refreshTokenKey: string = 'refreshToken'
@@ -18,8 +19,6 @@ export class AuthService {
 
   constructor(private http: HttpClient) {
     this.isLogged = !!localStorage.getItem(this.accessTokenKey)
-
-
   }
 
   public login(email: string, password: string, rememberMe: boolean): Observable<DefaultResponseType | LoginResponseType> {
@@ -47,7 +46,6 @@ export class AuthService {
       })
     }
     throw throwError(() => 'Can not find token')
-
   }
 
   public getIsLoggedIn(): boolean {

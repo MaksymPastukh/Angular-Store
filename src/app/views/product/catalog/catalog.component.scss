@@ -45,9 +45,11 @@
 
       .catalog-sorting {
         width: 19rem;
+        min-width: 19rem;
         box-sizing: border-box;
         position: relative;
         font-size: 1.6rem;
+        cursor: pointer;
 
         .catalog-sorting-head {
           display: flex;
@@ -88,6 +90,7 @@
 
         &.open {
           width: 25.7rem;
+          min-width: 25.7rem;
 
           .catalog-sorting-head {
             color: #000000;
@@ -116,7 +119,13 @@
       .catalog-products {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        gap: 2.6rem 3rem
+        gap: 2.6rem 3rem;
+      }
+
+      .errorFoundProduct {
+        margin-top: 5rem;
+        text-align: center;
+        font-size: 24px;
       }
     }
 

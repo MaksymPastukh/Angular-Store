@@ -13,8 +13,7 @@ export class ProductCardComponent implements OnInit {
   public serverStaticPath = environment.serverStaticPath
   public count: number = 1
 
-  constructor() {
-  }
+  constructor() {}
 
   ngOnInit(): void {
   }

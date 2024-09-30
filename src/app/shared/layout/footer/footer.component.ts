@@ -12,10 +12,8 @@ export class FooterComponent implements OnInit{
   @Input('category')
   public categories!: CategoryType[]
 
-  constructor() {
-  }
+  constructor() {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
 }

@@ -1,9 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
 import {ProductService} from "../../../shared/services/product.service";
 import {ProductType} from "../../../../types/product.type";
 import {CategoryService} from "../../../shared/services/category.service";
 import {CategoryWithTypeType} from "../../../../types/category-with-type.type";
+import {ActivatedRoute, Params, Router} from "@angular/router";
+import {ActiveParamsType} from "../../../../types/active-params.type";
+import {ActiveParamsUtils} from "../../../shared/utils/active-params.utils";
+import {AppliedFilterType} from "../../../../types/applied-filter.type";
 
 @Component({
   selector: 'app-catalog',
@@ -15,20 +18,151 @@ export class CatalogComponent implements OnInit {
 
   public products: ProductType[] = []
   categoriesWithTypes: CategoryWithTypeType[] = []
+  public activeParams: ActiveParamsType = {
+    types: []
+  }
+  appliedFilters: AppliedFilterType[] = []
+  sortingOpen: boolean = false
+  sortingOptions: { name: string, value: string }[] = [
+    {name: 'От А до Я', value: 'az-asc'},
+    {name: 'От Я до А', value: 'az-desc'},
+    {name: 'По возрастанию цены', value: 'price-asc'},
+    {name: 'По убыванию цены', value: 'price-desc'},
+  ]
+  pages: number[] = []
 
-  constructor(private productService: ProductService, private categoryService: CategoryService) {
+  constructor(private productService: ProductService,
+              private categoryService: CategoryService,
+              private activatedRoute: ActivatedRoute,
+              private router: Router
+  ) {
   }
 
   ngOnInit(): void {
-    this.productService.getProducts()
-      .subscribe((data) => {
-        this.products = data.items
-      })
+
 
     this.categoryService.getCategoriesWithTypes()
       .subscribe((data: CategoryWithTypeType[]): void => {
         this.categoriesWithTypes = data
+
+        // В эту функцию мы попадаем после того как параметры изменяются на странице
+        this.activatedRoute.queryParams.subscribe((param: Params) => {
+          this.activeParams = ActiveParamsUtils.processParams(param)
+          // Когда параметры изменились мы первым делом обнуляем массив appliedFilters
+
+          this.appliedFilters = []
+          // И з заново наполняем массив фильтрами которые нужно отобразить
+
+          this.activeParams.types.forEach((url: string): void => {
+
+            for (let i = 0; i < this.categoriesWithTypes.length; i++) {
+              const foundType = this.categoriesWithTypes[i].types.find(type => type.url === url)
+              if (foundType) {
+                this.appliedFilters.push({
+                  name: foundType.name,
+                  urlParam: foundType.url,
+                })
+              }
+            }
+          })
+
+          if (this.activeParams.heightFrom) {
+            this.appliedFilters.push({
+              name: `Высота: от ${+this.activeParams.heightFrom} см`,
+              urlParam: 'heightFrom',
+            })
+          }
+          if (this.activeParams.heightTo) {
+            this.appliedFilters.push({
+              name: `Высота: до ${+this.activeParams.heightTo} см`,
+              urlParam: 'heightTo',
+            })
+          }
+
+          if (this.activeParams.diameterFrom) {
+            this.appliedFilters.push({
+              name: `Диаметр: от ${+this.activeParams.diameterFrom} см`,
+              urlParam: 'diameterFrom',
+            })
+          }
+          if (this.activeParams.diameterTo) {
+            this.appliedFilters.push({
+              name: `Диаметр: до ${+this.activeParams.diameterTo} см`,
+              urlParam: 'diameterTo',
+            })
+          }
+
+          this.productService.getProducts(this.activeParams)
+            .subscribe((data) => {
+              this.pages = []
+              for (let i: number = 1; i <= data.pages; i++) {
+                this.pages.push(i)
+              }
+              this.products = data.items
+            })
+        })
       })
   }
+
+  // Удаляем appliedFilters
+  removeAppliedFilters(appliedFilter: AppliedFilterType): void {
+    if (appliedFilter.urlParam === 'heightFrom' ||
+      appliedFilter.urlParam === 'heightTo' ||
+      appliedFilter.urlParam === 'diameterFrom' ||
+      appliedFilter.urlParam === 'diameterTo'
+    ) {
+      delete this.activeParams[appliedFilter.urlParam]
+    } else {
+      this.activeParams.types = this.activeParams.types.filter(item => item !== appliedFilter.urlParam)
+    }
+
+    this.router.navigate(['/catalog'], {
+      queryParams: this.activeParams
+    })
+  }
+
+  toggleSorting(): void {
+    this.sortingOpen = !this.sortingOpen
+  }
+
+  sort(value: string): void {
+    this.activeParams.sort = value
+
+    this.router.navigate(['/catalog'], {
+      queryParams: this.activeParams
+    })
+  }
+
+  openPage(page: number): void {
+      this.activeParams.page = page
+      this.router.navigate(['/catalog'], {
+        queryParams: this.activeParams
+      })
+
+
+  }
+
+
+  openPrevPage(): void {
+    if (this.activeParams.page && this.activeParams.page > 1) {
+      this.activeParams.page--
+      this.router.navigate(['/catalog'], {
+        queryParams: this.activeParams
+      })
+    }
+
+  }
+
+  openNextPage(): void {
+    if (this.activeParams.page && this.activeParams.page < this.pages.length) {
+      this.activeParams.page++
+      this.router.navigate(['/catalog'], {
+        queryParams: this.activeParams
+      })
+    }
+  }
+
+
+
 
 }
