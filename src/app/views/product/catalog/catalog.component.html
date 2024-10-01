@@ -46,13 +46,14 @@
       <div class="catalog-products">
         <product-card *ngFor="let product of products" [product]="product"></product-card>
       </div>
-      <div class="errorFoundProduct" *ngIf="products.length === 0">Товары не найдены. Попробуйте изменить фильтры поиска...
+      <div class="errorFoundProduct" *ngIf="products.length === 0">Товары не найдены. Попробуйте изменить фильтры
+        поиска...
       </div>
     </div>
 
-      <div class="pagination" *ngIf="pages.length > 1">
+    <div class="pagination" *ngIf="pages.length > 1">
       <div class="pagination-arrow" (click)="openPrevPage()"
-           [class.disabled]="this.activeParams.page ? this.activeParams.page === 1 : true"
+           [class.disabled]="activeParams.page ? activeParams.page === 1 : true"
       >
         <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path
@@ -64,13 +65,12 @@
         </svg>
       </div>
       <div class="pagination-pages">
-        <a class="pagination-page" *ngFor="let page of pages"
-          [class.active]="this.activeParams.page ? this.activeParams.page === page : (page === 1)"
-           (click)="openPage(page)">{{ page }} </a>
+        <a class="pagination-page" *ngFor="let page of pages"  (click)="openPage(page)"
+           [class.active]="this.activeParams.page ? this.activeParams.page === page : (page === 1)">{{ page }}</a>
       </div>
       <div class="pagination-arrow"
            (click)="openNextPage()"
-           [class.disabled]="this.activeParams.page ? this.activeParams.page === pages.length : false"
+           [class.disabled]="activeParams.page ?  activeParams.page === pages.length : false"
       >
         <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path

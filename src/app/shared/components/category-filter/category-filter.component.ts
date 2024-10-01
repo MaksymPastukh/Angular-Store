@@ -49,8 +49,6 @@ export class CategoryFilterComponent implements OnInit {
     //В этой функции каждый раз когда наши параметры url изменятся мы будем получать их
 
     this.activateRoute.queryParams.subscribe((params: Params) => {
-
-
         this.activeParams = ActiveParamsUtils.processParams(params)
 
         if (this.type) {
@@ -68,7 +66,6 @@ export class CategoryFilterComponent implements OnInit {
             this.activeParams.types = Array.isArray(params['types']) ? params['types'] : [params['types']]
           }
 
-
           if (this.categoryTypes &&
             this.categoryTypes.types &&
             this.categoryTypes.types.length > 0 &&
@@ -81,9 +78,7 @@ export class CategoryFilterComponent implements OnInit {
     )
   }
 
-  toggle()
-    :
-    void {
+  toggle(): void {
     this.open = !this.open
   }
 

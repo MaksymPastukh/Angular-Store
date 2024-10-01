@@ -7,6 +7,7 @@ import {ActivatedRoute, Params, Router} from "@angular/router";
 import {ActiveParamsType} from "../../../../types/active-params.type";
 import {ActiveParamsUtils} from "../../../shared/utils/active-params.utils";
 import {AppliedFilterType} from "../../../../types/applied-filter.type";
+import {debounceTime} from "rxjs";
 
 @Component({
   selector: 'app-catalog',
@@ -14,13 +15,12 @@ import {AppliedFilterType} from "../../../../types/applied-filter.type";
   styleUrls: ['./catalog.component.scss']
 })
 export class CatalogComponent implements OnInit {
-
-
   public products: ProductType[] = []
   categoriesWithTypes: CategoryWithTypeType[] = []
   public activeParams: ActiveParamsType = {
     types: []
   }
+
   appliedFilters: AppliedFilterType[] = []
   sortingOpen: boolean = false
   sortingOptions: { name: string, value: string }[] = [
@@ -39,14 +39,17 @@ export class CatalogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
-
     this.categoryService.getCategoriesWithTypes()
       .subscribe((data: CategoryWithTypeType[]): void => {
         this.categoriesWithTypes = data
 
         // В эту функцию мы попадаем после того как параметры изменяются на странице
-        this.activatedRoute.queryParams.subscribe((param: Params) => {
+        this.activatedRoute.queryParams
+          .pipe(
+            // Делаем задержу перед отправкой запроса, для того что бы subscribe не срабатывал для каждого моментального изменения url
+            debounceTime(500)
+          )
+          .subscribe((param: Params) => {
           this.activeParams = ActiveParamsUtils.processParams(param)
           // Когда параметры изменились мы первым делом обнуляем массив appliedFilters
 
@@ -54,7 +57,6 @@ export class CatalogComponent implements OnInit {
           // И з заново наполняем массив фильтрами которые нужно отобразить
 
           this.activeParams.types.forEach((url: string): void => {
-
             for (let i = 0; i < this.categoriesWithTypes.length; i++) {
               const foundType = this.categoriesWithTypes[i].types.find(type => type.url === url)
               if (foundType) {
@@ -78,7 +80,6 @@ export class CatalogComponent implements OnInit {
               urlParam: 'heightTo',
             })
           }
-
           if (this.activeParams.diameterFrom) {
             this.appliedFilters.push({
               name: `Диаметр: от ${+this.activeParams.diameterFrom} см`,
@@ -138,10 +139,7 @@ export class CatalogComponent implements OnInit {
       this.router.navigate(['/catalog'], {
         queryParams: this.activeParams
       })
-
-
   }
-
 
   openPrevPage(): void {
     if (this.activeParams.page && this.activeParams.page > 1) {
@@ -150,7 +148,6 @@ export class CatalogComponent implements OnInit {
         queryParams: this.activeParams
       })
     }
-
   }
 
   openNextPage(): void {
@@ -161,8 +158,4 @@ export class CatalogComponent implements OnInit {
       })
     }
   }
-
-
-
-
 }

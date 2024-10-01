@@ -1,0 +1,125 @@
+@import "../../../../assets/styles/base/variables";
+@import "../../../../assets/styles/base/mixin";
+
+.card {
+  margin-top: 5rem;
+  margin-bottom: 11rem;
+
+  .container {
+
+    .card-title {
+      @include head-lora-36
+    }
+
+    .card-info {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 3.5rem;
+      margin-bottom: 16rem;
+
+      .card-products {
+        width: 67.8rem;
+
+        .card-product {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          border-top: 1px solid #ebebeb;
+          padding-top: 2rem;
+          margin-top: 2rem;
+
+          &:first-child {
+            border-top: 0;
+            padding: 0;
+            margin: 0;
+          }
+
+          .card-product-images {
+            background-size: cover;
+            background-position: center;
+            width: 8rem;
+            height: 8rem;
+            margin-right: 2.6rem;
+            border-radius: 5px;
+          }
+
+          .card-product-name {
+            width: 24.7rem;
+            font: 500 16px "Montserrat", sans-serif;
+            color: #202b21;
+            margin-right: 1rem;
+          }
+
+          .card-product-price {
+            width: 10rem;
+            margin-left: 6.9rem;
+            margin-right: 1.9rem;
+            font: 600 18px "Montserrat", sans-serif;
+            color: $grey-text-color;
+          }
+
+          .card-product-remove {
+            cursor: pointer;
+          }
+        }
+      }
+    }
+
+    .card-details {
+      width: 50.1rem;
+
+      .card-details-info {
+        background: #e7f1e8;
+        border-radius: 5px;
+        padding: 4rem;
+        margin-bottom: 1.2rem;
+
+        .card-details-info-title {
+          font: 400 26px "Lora", sans-serif;
+          color: $green-text-color;
+        }
+
+        .card-details-info-item {
+          display: flex;
+          align-items: center;
+          color: $grey-text-color;
+
+          &.first {
+            margin-bottom: 1rem;
+          }
+
+          .card-details-info-item-text {
+            font-size: 1.6rem;
+            margin-right: 1.2rem;
+          }
+
+          .card-details-info-item-data {
+            font: 500 20px "Montserrat", sans-serif;
+          }
+        }
+
+        .card-details-info-delivery {
+          margin-top: .5rem;
+          font: italic 300 14px / 1.3 "Montserrat", sans-serif;
+          color: $grey-text-color;
+        }
+      }
+
+      .card-details-actions {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .button {
+          width: 23.4rem;
+
+          &.button-transparent {
+            width: 25.5rem;
+            margin-right: 1.2rem;
+            color: #6cac72;
+          }
+        }
+      }
+    }
+  }
+}

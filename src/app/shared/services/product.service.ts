@@ -8,8 +8,8 @@ import {ActiveParamsType} from "../../../types/active-params.type";
 @Injectable({
   providedIn: 'root'
 })
-export class ProductService {
 
+export class ProductService {
   constructor(private http: HttpClient) {
   }
 
@@ -17,9 +17,17 @@ export class ProductService {
     return this.http.get<ProductType[]>(environment.api + 'products/best')
   }
 
-  public getProducts(params: ActiveParamsType): Observable<{ totalCount: number, pages: number, items: ProductType[] }> {
+  public getProducts(params: ActiveParamsType): Observable<{
+    totalCount: number,
+    pages: number,
+    items: ProductType[]
+  }> {
     return this.http.get<{ totalCount: number, pages: number, items: ProductType[] }>(environment.api + 'products', {
       params: params
     })
+  }
+
+  public getProduct(url: string): Observable<ProductType> {
+    return this.http.get<ProductType>(environment.api + 'products/' + url)
   }
 }

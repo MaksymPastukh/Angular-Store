@@ -70,6 +70,22 @@ input {
   font: 400 16px "Montserrat", sans-serif;
   color: #fff;
 
+  &.button-transparent {
+    background-color: transparent;
+    border: 1px solid #6cac72;
+    color: $green-text-color;
+  }
+
+  &.button-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    span {
+      margin-left: 1.6rem;
+    }
+  }
+
   &:disabled {
     background: grey;
     cursor: not-allowed;
@@ -88,5 +104,30 @@ a.button {
   a {
     text-decoration: none;
     color: $grey-text-color;
+  }
+}
+
+.carousel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 5rem;
+
+  .carousel-title {
+    @include head-lora-32
+  }
+
+  .carousel-arrows {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    a {
+      cursor: pointer;
+
+      &:first-child {
+        margin-right: 3rem;
+      }
+    }
   }
 }

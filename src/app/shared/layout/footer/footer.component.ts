@@ -1,6 +1,5 @@
-import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
-import {CategoryType} from "../../../../types/category.type";
-import {LayoutComponent} from "../layout.component";
+import {Component, Input, OnInit} from '@angular/core';
+import {CategoryWithTypeType} from "../../../../types/category-with-type.type";
 
 @Component({
   selector: 'app-footer',
@@ -10,7 +9,7 @@ import {LayoutComponent} from "../layout.component";
 export class FooterComponent implements OnInit{
 
   @Input('category')
-  public categories!: CategoryType[]
+  public categories!: CategoryWithTypeType[]
 
   constructor() {}
 

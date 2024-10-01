@@ -6,6 +6,11 @@
   box-sizing: border-box;
   position: relative;
 
+  &.isLight {
+    height: auto;
+    cursor: pointer;
+  }
+
   .product-card-favorite {
     position: absolute;
     top: 1.2rem;
@@ -53,19 +58,6 @@
     justify-content: space-between;
     align-items: center;
 
-    .product-card-count {
-      width: 9.7rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-
-      div {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
-      }
-    }
 
     .product-card-detail {
       display: flex;

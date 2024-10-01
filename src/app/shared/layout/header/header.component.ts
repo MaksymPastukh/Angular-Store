@@ -1,8 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {CategoryType} from "../../../../types/category.type";
 import {AuthService} from "../../../core/auth/auth.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Router} from "@angular/router";
+import {CategoryWithTypeType} from "../../../../types/category-with-type.type";
 
 @Component({
   selector: 'app-header',
@@ -13,7 +13,7 @@ import {Router} from "@angular/router";
 export class HeaderComponent implements OnInit {
   isLogged: boolean = false
   @Input('category')
-  public categories!: CategoryType[]
+  public categories!: CategoryWithTypeType[]
 
   constructor(private authService: AuthService,
               private _snackBar: MatSnackBar,
@@ -45,4 +45,5 @@ export class HeaderComponent implements OnInit {
     this._snackBar.open(`Вы успешно вышли из системы`)
     this.router.navigate(['/'])
   }
+
 }

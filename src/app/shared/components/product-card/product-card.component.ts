@@ -8,14 +8,22 @@ import {environment} from "../../../../environments/environment";
   styleUrls: ['./product-card.component.scss']
 })
 export class ProductCardComponent implements OnInit {
-
   @Input() product!: ProductType
+  @Input() isLight: boolean = false
   public serverStaticPath = environment.serverStaticPath
-  public count: number = 1
+  count: number = 1
 
-  constructor() {}
+  constructor() {
+  }
 
   ngOnInit(): void {
   }
 
+  updateCount(value: number) {
+    this.count = value
+  }
+
+  addToCard() {
+    console.log('added to card ' + this.count)
+  }
 }

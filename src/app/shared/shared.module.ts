@@ -5,13 +5,16 @@ import { ProductCardComponent } from './components/product-card/product-card.com
 import {RouterLinkWithHref, RouterModule} from "@angular/router";
 import {FormsModule} from "@angular/forms";
 import { CategoryFilterComponent } from './components/category-filter/category-filter.component';
+import { CountSelectorComponent } from './components/count-selector/count-selector.component';
+
 
 
 @NgModule({
   declarations: [
     PasswordRepeatDirective,
     ProductCardComponent,
-    CategoryFilterComponent
+    CategoryFilterComponent,
+    CountSelectorComponent
   ],
   imports: [
     CommonModule,
@@ -23,6 +26,7 @@ import { CategoryFilterComponent } from './components/category-filter/category-f
     PasswordRepeatDirective,
     ProductCardComponent,
     CategoryFilterComponent,
+    CountSelectorComponent
   ]
 })
 export class SharedModule {

@@ -1,4 +1,5 @@
 @import "../../../../assets/styles/base/variables";
+@import "../../../../assets/styles/base/mixin";
 
 .catalog {
   padding-top: 10rem;
@@ -7,7 +8,7 @@
   .container {
 
     .catalog-title {
-      font: 400 36px "Lora", sans-serif;
+      @include head-lora-36;
       color: $green-text-color;
       margin-left: 31.7rem;
       margin-bottom: 3.3rem;

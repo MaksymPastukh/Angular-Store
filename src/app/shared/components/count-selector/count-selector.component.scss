@@ -1,0 +1,13 @@
+.count-selector {
+  width: 9.7rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  }
+}
