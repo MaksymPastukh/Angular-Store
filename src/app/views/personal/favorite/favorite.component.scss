@@ -1,0 +1,65 @@
+@import "../../../../assets/styles/base/variables";
+@import "../../../../assets/styles/base/mixin";
+
+.favorite {
+  padding-top: 5rem;
+  padding-bottom: 11rem;
+
+  .container {
+
+    .favorite-title {
+      @include head-lora-36;
+      color: $green-text-color;
+      margin-bottom: 3.5rem;
+    }
+
+    .favorite-products {
+      .favorite-product {
+        padding-top: 1.5rem;
+        margin-top: 1.5rem;
+        border-top: 1px solid #e7f1e8;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        &:first-child {
+          padding-top: 0;
+          margin-top: 0;
+          border-top: 0;
+        }
+
+        .favorite-product-images {
+          background-position: center;
+          background-size: cover;
+          width: 10rem;
+          height: 10rem;
+          border-radius: 5px;
+        }
+
+        .favorite-product-name {
+          margin-left: 2.4rem;
+          font-size: 2rem;
+          color: $grey-text-color;
+          width: 56.7rem;
+          margin-right: 2rem;
+        }
+
+        .favorite-product-price {
+          font: 600 22px "Montserrat", sans-serif;
+          color: $grey-text-color;
+          width: 10rem;
+          margin-right: 19.3rem;
+        }
+
+        .favorite-product-actions button {
+          width: 16rem;
+        }
+
+        .favorite-product-remove {
+          margin-left: 6rem;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}

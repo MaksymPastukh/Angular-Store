@@ -90,6 +90,28 @@ input {
     background: grey;
     cursor: not-allowed;
   }
+
+  &.button-in-card span {
+    &:first-child {
+      display: block;
+    }
+
+    &:last-child {
+      display: none;
+    }
+  }
+
+  &:hover {
+    &.button-in-card span {
+      &:first-child {
+        display: none;
+      }
+
+      &:last-child {
+        display: block;
+      }
+    }
+  }
 }
 
 a.button {

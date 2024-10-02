@@ -8,6 +8,8 @@ import {ActiveParamsType} from "../../../../types/active-params.type";
 import {ActiveParamsUtils} from "../../../shared/utils/active-params.utils";
 import {AppliedFilterType} from "../../../../types/applied-filter.type";
 import {debounceTime} from "rxjs";
+import {CardService} from "../../../shared/services/card.service";
+import {CardProductType} from "../../../../types/card-product.type";
 
 @Component({
   selector: 'app-catalog',
@@ -30,15 +32,23 @@ export class CatalogComponent implements OnInit {
     {name: 'По убыванию цены', value: 'price-desc'},
   ]
   pages: number[] = []
+  card: CardProductType | null = null
 
   constructor(private productService: ProductService,
               private categoryService: CategoryService,
               private activatedRoute: ActivatedRoute,
+              private cardService: CardService,
               private router: Router
   ) {
   }
 
   ngOnInit(): void {
+    this.cardService.getCard()
+      .subscribe((data: CardProductType): void => {
+        this.card = data
+      })
+
+
     this.categoryService.getCategoriesWithTypes()
       .subscribe((data: CategoryWithTypeType[]): void => {
         this.categoriesWithTypes = data
@@ -50,58 +60,73 @@ export class CatalogComponent implements OnInit {
             debounceTime(500)
           )
           .subscribe((param: Params) => {
-          this.activeParams = ActiveParamsUtils.processParams(param)
-          // Когда параметры изменились мы первым делом обнуляем массив appliedFilters
+            this.activeParams = ActiveParamsUtils.processParams(param)
+            // Когда параметры изменились мы первым делом обнуляем массив appliedFilters
 
-          this.appliedFilters = []
-          // И з заново наполняем массив фильтрами которые нужно отобразить
+            this.appliedFilters = []
+            // И з заново наполняем массив фильтрами которые нужно отобразить
 
-          this.activeParams.types.forEach((url: string): void => {
-            for (let i = 0; i < this.categoriesWithTypes.length; i++) {
-              const foundType = this.categoriesWithTypes[i].types.find(type => type.url === url)
-              if (foundType) {
-                this.appliedFilters.push({
-                  name: foundType.name,
-                  urlParam: foundType.url,
-                })
+            this.activeParams.types.forEach((url: string): void => {
+              for (let i = 0; i < this.categoriesWithTypes.length; i++) {
+                const foundType = this.categoriesWithTypes[i].types.find(type => type.url === url)
+                if (foundType) {
+                  this.appliedFilters.push({
+                    name: foundType.name,
+                    urlParam: foundType.url,
+                  })
+                }
               }
+            })
+
+            if (this.activeParams.heightFrom) {
+              this.appliedFilters.push({
+                name: `Высота: от ${+this.activeParams.heightFrom} см`,
+                urlParam: 'heightFrom',
+              })
             }
+            if (this.activeParams.heightTo) {
+              this.appliedFilters.push({
+                name: `Высота: до ${+this.activeParams.heightTo} см`,
+                urlParam: 'heightTo',
+              })
+            }
+            if (this.activeParams.diameterFrom) {
+              this.appliedFilters.push({
+                name: `Диаметр: от ${+this.activeParams.diameterFrom} см`,
+                urlParam: 'diameterFrom',
+              })
+            }
+            if (this.activeParams.diameterTo) {
+              this.appliedFilters.push({
+                name: `Диаметр: до ${+this.activeParams.diameterTo} см`,
+                urlParam: 'diameterTo',
+              })
+            }
+
+            this.productService.getProducts(this.activeParams)
+              .subscribe((data) => {
+                this.pages = []
+                for (let i: number = 1; i <= data.pages; i++) {
+                  this.pages.push(i)
+                }
+
+                if (this.card && this.card.items.length > 0) {
+                  this.products = data.items.map((product: ProductType) => {
+                    if (this.card) {
+                      const productInCard =
+                        this.card.items.find(item => item.product.id === product.id)
+                      if (productInCard) {
+                        product.countInCard = productInCard.quantity
+                      }
+                    }
+
+                    return product
+                  })
+                } else {
+                  this.products = data.items
+                }
+              })
           })
-
-          if (this.activeParams.heightFrom) {
-            this.appliedFilters.push({
-              name: `Высота: от ${+this.activeParams.heightFrom} см`,
-              urlParam: 'heightFrom',
-            })
-          }
-          if (this.activeParams.heightTo) {
-            this.appliedFilters.push({
-              name: `Высота: до ${+this.activeParams.heightTo} см`,
-              urlParam: 'heightTo',
-            })
-          }
-          if (this.activeParams.diameterFrom) {
-            this.appliedFilters.push({
-              name: `Диаметр: от ${+this.activeParams.diameterFrom} см`,
-              urlParam: 'diameterFrom',
-            })
-          }
-          if (this.activeParams.diameterTo) {
-            this.appliedFilters.push({
-              name: `Диаметр: до ${+this.activeParams.diameterTo} см`,
-              urlParam: 'diameterTo',
-            })
-          }
-
-          this.productService.getProducts(this.activeParams)
-            .subscribe((data) => {
-              this.pages = []
-              for (let i: number = 1; i <= data.pages; i++) {
-                this.pages.push(i)
-              }
-              this.products = data.items
-            })
-        })
       })
   }
 
@@ -135,10 +160,10 @@ export class CatalogComponent implements OnInit {
   }
 
   openPage(page: number): void {
-      this.activeParams.page = page
-      this.router.navigate(['/catalog'], {
-        queryParams: this.activeParams
-      })
+    this.activeParams.page = page
+    this.router.navigate(['/catalog'], {
+      queryParams: this.activeParams
+    })
   }
 
   openPrevPage(): void {

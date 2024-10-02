@@ -1,7 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {OwlOptions} from "ngx-owl-carousel-o";
 import {ProductService} from "../../../shared/services/product.service";
 import {ProductType} from "../../../../types/product.type";
+import {CardService} from "../../../shared/services/card.service";
+import {CardProductType} from "../../../../types/card-product.type";
+import {environment} from "../../../../environments/environment";
+import {DefaultResponseType} from "../../../../types/default-response.type";
 
 @Component({
   selector: 'app-card',
@@ -36,15 +40,50 @@ export class CardComponent implements OnInit {
     },
     nav: false
   }
+  card: CardProductType | null = null
+  public serverStaticPath = environment.serverStaticPath
+  totalAmount: number = 0
+  totalCount: number = 0
+  count: number = 1
 
 
-  constructor(private productService: ProductService) { }
+  constructor(private productService: ProductService, private cardService: CardService,) {
+  }
 
   ngOnInit(): void {
     this.productService.getBestProduct()
       .subscribe((data: ProductType[]) => {
         this.extraProducts = data
       })
+
+    this.cardService.getCard()
+      .subscribe((data: CardProductType) => {
+        this.card = data
+        this.calculateTotal()
+      })
   }
+
+  calculateTotal(): void {
+    this.totalAmount = 0
+    this.totalCount = 0
+    if (this.card) {
+      this.card.items.forEach(item => {
+        this.totalAmount += item.quantity * item.product.price
+        this.totalCount += item.quantity
+      })
+    }
+  }
+
+  //Обновление количества товаров
+  updateCount(id: string, value: number) {
+    if (this.card) {
+      this.cardService.updateCard(id, value)
+        .subscribe((data: CardProductType): void => {
+          this.card = data
+          this.calculateTotal()
+        })
+    }
+  }
+
 
 }

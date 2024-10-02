@@ -28,7 +28,11 @@
       {{ product.price }} BYN
     </div>
     <div class="product-card-action">
-      <button class="button" (click)="addToCard()">В корзину</button>
+      <button class="button" *ngIf="!countInCard" (click)="addToCard()">В корзину</button>
+      <button class="button button-transparent button-in-card" *ngIf="countInCard" (click)="removeFromCard()">
+        <span>В корзинe</span>
+        <span>Удалить</span>
+      </button>
     </div>
   </div>
 

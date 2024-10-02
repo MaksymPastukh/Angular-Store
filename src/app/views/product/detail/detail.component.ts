@@ -1,9 +1,12 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {OwlOptions} from "ngx-owl-carousel-o";
 import {ProductType} from "../../../../types/product.type";
 import {ProductService} from "../../../shared/services/product.service";
 import {ActivatedRoute, Params} from "@angular/router";
 import {environment} from "../../../../environments/environment";
+import {CardProductType} from "../../../../types/card-product.type";
+import {DefaultResponseType} from "../../../../types/default-response.type";
+import {CardService} from "../../../shared/services/card.service";
 
 @Component({
   selector: 'app-detail',
@@ -41,24 +44,37 @@ export class DetailComponent implements OnInit {
   public productsRecommended: ProductType[] = []
   public product!: ProductType
   public serverStaticPath = environment.serverStaticPath
+  card: CardProductType | null = null
 
 
   constructor(private productService: ProductService,
-              private activateRoute: ActivatedRoute) {
+              private activateRoute: ActivatedRoute,
+              private cardService: CardService
+  ) {
   }
 
   ngOnInit(): void {
-
     this.activateRoute.params.subscribe((params: Params) => {
-
       this.productService.getProduct(params['url'])
         .subscribe((data: ProductType) => {
           if (params['url']) {
-            this.product = data
+            this.cardService.getCard()
+              .subscribe((cardData: CardProductType): void => {
+                if (cardData) {
+                  const productInCard =
+                    cardData.items.find(item => item.product.id === data.id)
+
+                  if (productInCard) {
+                    data.countInCard = productInCard.quantity
+                    this.count = data.countInCard
+                  }
+                }
+
+                this.product = data
+              })
           }
         })
     })
-
 
     this.productService.getBestProduct()
       .subscribe((data: ProductType[]) => {
@@ -66,11 +82,34 @@ export class DetailComponent implements OnInit {
       })
   }
 
+  //Обновление количества товаров
   updateCount(value: number) {
     this.count = value
+    if (this.product.countInCard) {
+      // Делаем данную проверку для того что бы + и - отправляли запросы в том случае если товар уже есть в корзине
+      this.cardService.updateCard(this.product.id, this.count)
+        .subscribe((data: CardProductType | DefaultResponseType): void => {
+          this.product.countInCard = this.count
+        })
+    }
+
   }
 
+  // Добавление товаров в корзину
   addToCard() {
-    console.log('added to card ' + this.count)
+    this.cardService.updateCard(this.product.id, this.count)
+      .subscribe((data: CardProductType | DefaultResponseType): void => {
+        this.product.countInCard = this.count
+      })
   }
+
+  // Удаление товаров
+  removeFromCard(): void {
+    this.cardService.updateCard(this.product.id, 0)
+      .subscribe((data: CardProductType | DefaultResponseType): void => {
+        this.product.countInCard = 0
+        this.count = 1
+      })
+  }
+
 }

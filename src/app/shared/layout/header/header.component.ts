@@ -3,6 +3,7 @@ import {AuthService} from "../../../core/auth/auth.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Router} from "@angular/router";
 import {CategoryWithTypeType} from "../../../../types/category-with-type.type";
+import {CardService} from "../../services/card.service";
 
 @Component({
   selector: 'app-header',
@@ -14,16 +15,28 @@ export class HeaderComponent implements OnInit {
   isLogged: boolean = false
   @Input('category')
   public categories!: CategoryWithTypeType[]
+  public count: number = 0
 
   constructor(private authService: AuthService,
               private _snackBar: MatSnackBar,
-              private router: Router) {
+              private router: Router,
+              private cardService: CardService) {
     this.isLogged = this.authService.getIsLoggedIn()
   }
 
   ngOnInit(): void {
     this.authService.isLogged$.subscribe((isLoggedIn: boolean) => {
       this.isLogged = isLoggedIn
+    })
+
+    this.cardService.getCardCount()
+      .subscribe(data => {
+        this.count = data.count
+      })
+
+    this.cardService.count$
+      .subscribe(count => {
+      this.count = count
     })
   }
 

@@ -1,39 +1,22 @@
-<div class="card">
+<div class="card" *ngIf="card">
   <div class="container">
     <div class="card-title">Корзина</div>
-    <div class="card-info">
+    <div class="card-empty" *ngIf="!card || card.items.length === 0">
+      <div>В корзине нету товаров...</div>
+      <button class="button" routerLink="/catalog">В каталог</button>
+    </div>
+    <div class="card-info" *ngIf="card && card.items.length > 0">
       <div class="card-products">
-        <div class="card-product">
-          <div class="card-product-images"></div>
-          <div class="card-product-name">Сансевиерия трехпучковая Муншайн</div>
-          <count-selector></count-selector>
-          <div class="card-product-price">100 BYN</div>
-          <div class="card-product-remove">
-            <svg width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <line x1="0.935622" y1="1.50635" x2="12.9564" y2="13.5272" stroke="#A8ABA7" stroke-linecap="round"/>
-              <line x1="12.9238" y1="1.4864" x2="0.903013" y2="13.5072" stroke="#A8ABA7" stroke-linecap="round"/>
-            </svg>
-          </div>
-        </div>
-        <div class="card-product">
-          <div class="card-product-images"></div>
-          <div class="card-product-name">Сансевиерия трехпучковая Муншайн</div>
-          <count-selector></count-selector>
-          <div class="card-product-price">100 BYN</div>
-          <div class="card-product-remove">
-            <svg width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <line x1="0.935622" y1="1.50635" x2="12.9564" y2="13.5272" stroke="#A8ABA7" stroke-linecap="round"/>
-              <line x1="12.9238" y1="1.4864" x2="0.903013" y2="13.5072" stroke="#A8ABA7" stroke-linecap="round"/>
-            </svg>
-          </div>
-        </div>
-        <div class="card-product">
-          <div class="card-product-images"></div>
-          <div class="card-product-name">Сансевиерия трехпучковая Муншайн</div>
-          <count-selector></count-selector>
-          <div class="card-product-price">100 BYN</div>
-          <div class="card-product-remove">
-            <svg width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <div class="card-product" *ngFor="let cardItem of card.items ">
+          <div class="card-product-images"
+               style="background-image: url({{serverStaticPath + cardItem.product.image}})"></div>
+          <div class="card-product-name">{{ cardItem.product.name }}</div>
+          <count-selector [count]="cardItem.quantity"
+                          (onCountChange)="updateCount(cardItem.product.id, $event)"></count-selector>
+          <div class="card-product-price">{{ cardItem.product.price }} BYN</div>
+          <div class="card-product-remove" (click)="updateCount(cardItem.product.id, 0)">
+            <svg width="14" height="15" viewBox="0 0 14 15" fill="none"
+                 xmlns="http://www.w3.org/2000/svg">
               <line x1="0.935622" y1="1.50635" x2="12.9564" y2="13.5272" stroke="#A8ABA7" stroke-linecap="round"/>
               <line x1="12.9238" y1="1.4864" x2="0.903013" y2="13.5072" stroke="#A8ABA7" stroke-linecap="round"/>
             </svg>
@@ -45,11 +28,11 @@
           <div class="card-details-info-title">Ваш заказ</div>
           <div class="card-details-info-item first">
             <div class="card-details-info-item-text">Товаров:</div>
-            <div class="card-details-info-item-data">4</div>
+            <div class="card-details-info-item-data">{{ totalCount }}</div>
           </div>
           <div class="card-details-info-item">
             <div class="card-details-info-item-text">Общая стоимость:</div>
-            <div class="card-details-info-item-data">147 BYN</div>
+            <div class="card-details-info-item-data">1{{ totalAmount }} BYN</div>
           </div>
           <div class="card-details-info-delivery">* без учета доставки</div>
         </div>

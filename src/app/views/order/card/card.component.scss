@@ -11,6 +11,20 @@
       @include head-lora-36
     }
 
+    .card-empty {
+      margin-top: 2rem;
+      margin-bottom: 10rem;
+
+      div {
+        font-size: 1.6rem;
+      }
+
+      .button {
+        margin-top: 2rem;
+        width: 25.5rem;
+      }
+    }
+
     .card-info {
       display: flex;
       justify-content: space-between;

@@ -27,8 +27,4 @@ export class LayoutComponent implements OnInit {
       })
   }
 
-  getCategories() {
-    return this.categories
-  }
-
 }
