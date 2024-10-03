@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Observable} from "rxjs";
 import {ProductType} from "../../../types/product.type";
 import {environment} from "../../../environments/environment";
@@ -11,9 +11,23 @@ import {DefaultResponseType} from "../../../types/default-response.type";
 })
 export class FavoriteService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+  }
 
   public getFavorites(): Observable<FavoriteType[] | DefaultResponseType> {
     return this.http.get<FavoriteType[] | DefaultResponseType>(environment.api + 'favorites')
+  }
+
+
+  public removeFavorites(productId: string): Observable<DefaultResponseType> {
+    return this.http.delete<DefaultResponseType>(environment.api + 'favorites', {
+      body: {productId}
+    })
+  }
+
+  public addToFavorites(productId: string): Observable<FavoriteType | DefaultResponseType> {
+    return this.http.post<FavoriteType | DefaultResponseType>(environment.api + 'favorites', {
+      productId
+    })
   }
 }

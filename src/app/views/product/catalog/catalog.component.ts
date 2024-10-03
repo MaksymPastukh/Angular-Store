@@ -10,6 +10,10 @@ import {AppliedFilterType} from "../../../../types/applied-filter.type";
 import {debounceTime} from "rxjs";
 import {CardService} from "../../../shared/services/card.service";
 import {CardProductType} from "../../../../types/card-product.type";
+import {FavoriteType} from "../../../../types/favorite.type";
+import {DefaultResponseType} from "../../../../types/default-response.type";
+import {FavoriteService} from "../../../shared/services/favorite.service";
+import {AuthService} from "../../../core/auth/auth.service";
 
 @Component({
   selector: 'app-catalog',
@@ -33,22 +37,52 @@ export class CatalogComponent implements OnInit {
   ]
   pages: number[] = []
   card: CardProductType | null = null
+  favoriteProducts: FavoriteType[] | null = null
 
   constructor(private productService: ProductService,
               private categoryService: CategoryService,
               private activatedRoute: ActivatedRoute,
               private cardService: CardService,
+              private favoriteService: FavoriteService,
+              private authService: AuthService,
               private router: Router
   ) {
   }
 
   ngOnInit(): void {
     this.cardService.getCard()
-      .subscribe((data: CardProductType): void => {
-        this.card = data
+      .subscribe((data: CardProductType | DefaultResponseType): void => {
+        if ((data as DefaultResponseType).error !== undefined) {
+          throw new Error((data as DefaultResponseType).message)
+        }
+        this.card = data as CardProductType
+
+        if(this.authService.getIsLoggedIn()) {
+          this.favoriteService.getFavorites()
+            .subscribe({
+                next: (data: FavoriteType[] | DefaultResponseType) => {
+                  if ((data as DefaultResponseType).error !== undefined) {
+                    const error: string = (data as DefaultResponseType).message
+                    this.processCatalog()
+                    throw new Error(error)
+                  }
+
+                  this.favoriteProducts = data as FavoriteType[]
+                  this.processCatalog()
+                },
+                error: (error) => {
+                  this.processCatalog()
+                }
+              }
+            )
+        } else  {
+          this.processCatalog()
+        }
+
       })
+  }
 
-
+  processCatalog() {
     this.categoryService.getCategoriesWithTypes()
       .subscribe((data: CategoryWithTypeType[]): void => {
         this.categoriesWithTypes = data
@@ -125,6 +159,18 @@ export class CatalogComponent implements OnInit {
                 } else {
                   this.products = data.items
                 }
+
+                if (this.favoriteProducts) {
+                  this.products = this.products.map((product: ProductType) => {
+                    const productInFavorite = this.favoriteProducts?.find(item => item.id === product.id)
+                    if (productInFavorite) {
+                      product.isInFavorite = true
+                    }
+
+                    return product
+                  })
+                }
+
               })
           })
       })

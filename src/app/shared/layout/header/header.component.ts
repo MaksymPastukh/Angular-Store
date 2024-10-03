@@ -4,6 +4,8 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {Router} from "@angular/router";
 import {CategoryWithTypeType} from "../../../../types/category-with-type.type";
 import {CardService} from "../../services/card.service";
+import {DefaultResponseType} from "../../../../types/default-response.type";
+import {CardServiceType} from "../../../../types/card-service.type";
 
 @Component({
   selector: 'app-header',
@@ -30,14 +32,17 @@ export class HeaderComponent implements OnInit {
     })
 
     this.cardService.getCardCount()
-      .subscribe(data => {
-        this.count = data.count
+      .subscribe((data: CardServiceType | DefaultResponseType) => {
+        if ((data as DefaultResponseType).error !== undefined) {
+          throw new Error((data as DefaultResponseType).message)
+        }
+        this.count = (data as CardServiceType).count
       })
 
     this.cardService.count$
       .subscribe(count => {
-      this.count = count
-    })
+        this.count = count
+      })
   }
 
   logout(): void {

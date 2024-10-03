@@ -3,6 +3,8 @@ import {HttpClient} from "@angular/common/http";
 import {Observable, Subject, tap} from "rxjs";
 import {CardProductType} from "../../../types/card-product.type";
 import {environment} from "../../../environments/environment";
+import {DefaultResponseType} from "../../../types/default-response.type";
+import {CardServiceType} from "../../../types/card-service.type";
 
 @Injectable({
   providedIn: 'root'
@@ -16,34 +18,38 @@ export class CardService {
   }
 
   // {withCredentials: true} - Этот флаг нужно устанавливать при всех запросах которые работают сессиями
-  getCard(): Observable<CardProductType> {
-    return this.http.get<CardProductType>(environment.api + 'cart', {withCredentials: true})
+  getCard(): Observable<CardProductType | DefaultResponseType> {
+    return this.http.get<CardProductType | DefaultResponseType>(environment.api + 'cart', {withCredentials: true})
   }
 
-  getCardCount(): Observable<{ count: number }> {
-    return this.http.get<{ count: number }>(environment.api + 'cart/count', {withCredentials: true})
+  getCardCount(): Observable<CardServiceType | DefaultResponseType> {
+    return this.http.get<CardServiceType | DefaultResponseType>(environment.api + 'cart/count', {withCredentials: true})
       .pipe(
         tap(data => {
-          this.count = data.count
-          this.count$.next(data.count)
+          if (!data.hasOwnProperty('error')) {
+            this.count = (data as CardServiceType).count
+            this.count$.next(this.count)
+          }
         })
       )
 
   }
 
-  updateCard(productId: string, quantity: number): Observable<CardProductType> {
-    return this.http.post<CardProductType>(environment.api + 'cart', {
+  updateCard(productId: string, quantity: number): Observable<CardProductType | DefaultResponseType> {
+    return this.http.post<CardProductType | DefaultResponseType>(environment.api + 'cart', {
       productId,
       quantity
     }, {withCredentials: true})
       .pipe(
-        tap(data => {
+        tap((data: CardProductType | DefaultResponseType) => {
           this.count = 0
+          if (!data.hasOwnProperty('error')) {
 
-          data.items.forEach(item => {
-            this.count += item.quantity
-          })
-          this.count$.next(this.count)
+            (data as CardProductType).items.forEach((item) => {
+              this.count += item.quantity
+            })
+            this.count$.next(this.count)
+          }
         })
       )
   }

@@ -57,8 +57,11 @@ export class CardComponent implements OnInit {
       })
 
     this.cardService.getCard()
-      .subscribe((data: CardProductType) => {
-        this.card = data
+      .subscribe((data: CardProductType | DefaultResponseType) => {
+        if ((data as DefaultResponseType).error !== undefined) {
+          throw new Error((data as DefaultResponseType).message)
+        }
+        this.card = data as CardProductType
         this.calculateTotal()
       })
   }
@@ -78,8 +81,11 @@ export class CardComponent implements OnInit {
   updateCount(id: string, value: number) {
     if (this.card) {
       this.cardService.updateCard(id, value)
-        .subscribe((data: CardProductType): void => {
-          this.card = data
+        .subscribe((data: CardProductType | DefaultResponseType): void => {
+          if ((data as DefaultResponseType).error !== undefined) {
+            throw new Error((data as DefaultResponseType).message)
+          }
+          this.card = data as CardProductType
           this.calculateTotal()
         })
     }

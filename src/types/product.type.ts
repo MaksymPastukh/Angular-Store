@@ -15,6 +15,7 @@ export type ProductType = {
     url: string
   },
   countInCard?: number,
+  isInFavorite?: boolean
 }
 
 

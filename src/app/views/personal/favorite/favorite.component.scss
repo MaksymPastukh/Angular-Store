@@ -13,6 +13,20 @@
       margin-bottom: 3.5rem;
     }
 
+    .favorite-empty {
+      margin-top: 2rem;
+      margin-bottom: 10rem;
+
+      div {
+        font-size: 1.6rem;
+      }
+
+      .button {
+        margin-top: 2rem;
+        width: 25.5rem;
+      }
+    }
+
     .favorite-products {
       .favorite-product {
         padding-top: 1.5rem;
