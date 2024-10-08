@@ -7,7 +7,7 @@ export type CardProductType = {
       image: string,
       url: string,
     },
-    "quantity": number
+    quantity: number
   }[]
 }
 

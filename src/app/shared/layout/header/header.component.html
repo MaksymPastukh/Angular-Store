@@ -16,10 +16,10 @@
                 <a routerLink="catalog">Каталог</a>
               </li>
               <li>
-                <a>Отзывы</a>
+                <a routerLink="/" fragment="reviews">Отзывы</a>
               </li>
               <li>
-                <a>Доставка и оплата</a>
+                <a routerLink="/" fragment="info-delivery">Доставка и оплата</a>
               </li>
             </ul>
           </nav>
@@ -88,7 +88,7 @@
                 d="M14.4083 20.9581H9.38329C6.39996 20.9581 5.73329 19.1831 5.47496 17.6415L4.29996 10.4331C4.24162 10.0915 4.47496 9.7748 4.81662 9.71646C5.15829 9.65813 5.47496 9.89146 5.53329 10.2331L6.70829 17.4331C6.94996 18.9081 7.44996 19.7081 9.38329 19.7081H14.4083C16.55 19.7081 16.7916 18.9581 17.0666 17.5081L18.4666 10.2165C18.5333 9.87479 18.8583 9.6498 19.2 9.7248C19.5416 9.79146 19.7583 10.1165 19.6916 10.4581L18.2916 17.7498C17.9666 19.4415 17.425 20.9581 14.4083 20.9581Z"
                 fill="#202B21"/>
             </svg>
-            <span>{{count}}</span>
+            <span>{{ count }}</span>
           </a>
         </div>
       </div>
@@ -103,9 +103,22 @@
           </nav>
         </div>
         <div class="header-bottom-search">
-          <input type="text" placeholder="Начните искать">
+          <input type="text"
+                 placeholder="Начните искать" [formControl]="searchField">
+          <div class="search-products" *ngIf="isShowSearch && products && products.length > 0">
+            <div class="search-product" *ngFor="let product of products" (click)="selectProduct(product.url)">
+              <div class="search-product-image"
+                   style="background-image: url({{serverStaticPath + product.image}})"></div>
+              <div class="search-product-name">{{ product.name }}</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </header>
+
+
+<!--<input type="text"-->
+<!--       (blur)="changeShowedSearch(false)" (focus)="changeShowedSearch(true)"-->
+<!--       placeholder="Начните искать" [ngModel]="searchValue" (ngModelChange)="changedSearchValue($event)">-->

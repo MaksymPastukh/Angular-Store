@@ -1,0 +1,26 @@
+@import "mixin";
+@import "variables";
+
+.personal-title {
+  @include head-lora-32;
+  margin-bottom: 3rem;
+}
+
+.personal-pages-selector {
+  margin-bottom: 5rem;
+  font: 400 26px "Lora", sans-serif;
+  color: $green-text-color;
+  display: flex;
+  align-items: center;
+
+  .personal-page {
+    border-bottom: 2px solid #b6d5b9;
+    padding: 0 1.5rem 1.2rem;
+    cursor: pointer;
+
+    &.active {
+      border-bottom: 3px solid #519057;
+
+    }
+  }
+}

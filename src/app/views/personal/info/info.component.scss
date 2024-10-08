@@ -1,0 +1,31 @@
+@import "../../../../assets/styles/base/variables";
+@import "../../../../assets/styles/base/mixin";
+@import "../../../../assets/styles/base/data-form";
+@import "../../../../assets/styles/base/personal";
+
+
+.info {
+  padding-top: 5rem;
+  padding-bottom: 12.8rem;
+  position: relative;
+  overflow: hidden;
+
+  .container {
+    .data-form {
+      .button {
+        width: 16.9rem;
+      }
+    }
+  }
+
+  .page-image {
+    position: absolute;
+    bottom: 0;
+    right: calc(50% - 70rem);
+    z-index: -1;
+
+    img {
+      vertical-align: bottom;
+    }
+  }
+}

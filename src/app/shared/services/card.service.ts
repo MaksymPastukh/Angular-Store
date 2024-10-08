@@ -11,10 +11,16 @@ import {CardServiceType} from "../../../types/card-service.type";
 })
 export class CardService {
 
-  public count: number = 0
+  private count: number = 0
   count$: Subject<number> = new Subject<number>()
 
+
   constructor(private http: HttpClient) {
+  }
+
+  setCount(count: number) {
+    this.count = count
+    this.count$.next(count)
   }
 
   // {withCredentials: true} - Этот флаг нужно устанавливать при всех запросах которые работают сессиями
@@ -27,8 +33,7 @@ export class CardService {
       .pipe(
         tap(data => {
           if (!data.hasOwnProperty('error')) {
-            this.count = (data as CardServiceType).count
-            this.count$.next(this.count)
+            this.setCount((data as CardServiceType).count)
           }
         })
       )
@@ -42,13 +47,14 @@ export class CardService {
     }, {withCredentials: true})
       .pipe(
         tap((data: CardProductType | DefaultResponseType) => {
-          this.count = 0
+          let count: number = 0
           if (!data.hasOwnProperty('error')) {
 
             (data as CardProductType).items.forEach((item) => {
-              this.count += item.quantity
+              count += item.quantity
             })
-            this.count$.next(this.count)
+
+            this.setCount(count)
           }
         })
       )

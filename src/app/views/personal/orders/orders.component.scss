@@ -1,0 +1,97 @@
+@import "../../../../assets/styles/base/variables";
+@import "../../../../assets/styles/base/mixin";
+@import "../../../../assets/styles/base/personal";
+
+.orders {
+  padding-top: 5.6rem;
+  padding-bottom: 15.6rem;
+
+  .container {
+    font-size: 1.6rem;
+
+
+    .order-title {
+      font: 500 16px "Montserrat", sans-serif;
+      color: $grey-text-color;
+      margin-bottom: 1.4rem;
+    }
+
+    .orders-empty {
+      margin-top: 2rem;
+      margin-bottom: 10rem;
+
+      div {
+        font-size: 1.6rem;
+      }
+
+      .button {
+        margin-top: 2rem;
+        width: 25.5rem;
+      }
+    }
+
+    .orders-title-additional {
+      color: $grey-text-color;
+      margin-bottom: 6.7rem;
+    }
+
+    .orders-list {
+
+      .orders-list-item {
+        border-bottom: 1px solid #e7f1e8;
+        padding-bottom: 4.6rem;
+        margin-bottom: 4.7rem;
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+
+        &:last-child {
+          border-bottom: 0;
+          padding-bottom: 0;
+          margin-bottom: 0;
+        }
+
+        .orders-list-item-number {
+         font-size: 2rem;
+          text-decoration: underline;
+          color: #111111;
+          width: 29.7rem;
+          margin-right: 2rem;
+        }
+
+        .orders-list-item-product {
+          width: 50.9rem;
+          margin-right: 2rem;
+          color: #adadad;
+
+          .orders-list-item-products-count {
+            margin-bottom: 1.2rem;
+          }
+          .orders-list-item-product-list tr td:first-child{
+            padding-left: 1rem;
+            padding-right: 2rem;
+          }
+        }
+
+        .orders-list-item-status {
+          padding: .8rem 2.4rem;
+          text-align: center;
+          border: 1px solid #456f49;
+          border-radius: 5rem;
+          box-sizing: border-box;
+          background: transparent;
+          color: #456f49;
+        }
+
+        .orders-list-item-price {
+          width: 18.6rem;
+          text-align: right;
+          font: 600 22px "Montserrat", sans-serif;
+          color: $grey-text-color;
+        }
+      }
+
+
+    }
+  }
+}

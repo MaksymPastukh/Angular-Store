@@ -1,0 +1,98 @@
+@import "../../../../assets/styles/base/variables";
+@import "../../../../assets/styles/base/mixin";
+@import "../../../../assets/styles/base/data-form";
+
+.order {
+  padding-top: 8.6rem;
+  padding-bottom: 10.7rem;
+
+  .container {
+
+    .order-title {
+      @include head-lora-32;
+    }
+
+    .order-info {
+      margin-top: 3rem;
+      display: flex;
+      justify-content: space-between;
+
+
+
+      .order-details {
+        width: 42.2rem;
+
+        .order-details-info {
+          background: #e7f1e8;
+          border-radius: 5px;
+          padding: 4rem;
+          margin-bottom: 1.4rem;
+
+          .order-details-info-title {
+            font: 400 26px "Lora", sans-serif;
+            color: $green-text-color;
+            margin-bottom: 2rem;
+          }
+
+          .order-details-info-item {
+            display: flex;
+            align-items: center;
+            color: $grey-text-color;
+            margin-bottom: 1rem;
+
+            .order-details-info-item-text {
+              font-size: 1.6rem;
+              margin-right: 1.2rem;
+            }
+
+            .order-details-info-item-data {
+              font: 500 20px "Montserrat", sans-serif;
+            }
+
+            &:last-child {
+              margin-bottom: 0;
+
+              .order-details-info-item-text,
+              .order-details-info-item-data {
+                font: 600 20px "Montserrat", sans-serif;
+              }
+            }
+          }
+        }
+        .button {
+          width: 42.2rem;
+        }
+      }
+    }
+  }
+}
+
+.order-popup {
+  padding: 10rem 7rem 22rem;
+  position: relative;
+  text-align: center;
+  color: $green-text-color;
+  background-image: url("../../../../assets/images/popup-image.png");
+  background-position: bottom center;
+  background-repeat: no-repeat;
+
+  .order-popup-close {
+    position: absolute;
+    cursor: pointer;
+    top: 3rem;
+    right: 3rem;
+  }
+
+  .order-popup-title {
+    @include head-lora-32;
+    margin-bottom: 4rem;
+  }
+
+  .order-popup-content div {
+    font-size: 2rem;
+    margin-bottom: .5rem;
+  }
+}
+
+
+

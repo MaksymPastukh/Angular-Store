@@ -1,0 +1,112 @@
+@import "variables";
+@import "mixin";
+
+.data-form {
+  max-width: 64.6rem;
+
+  .data-form-block {
+    margin-bottom: 3rem;
+
+    .data-form-label {
+      margin-bottom: 2rem;
+      font: 500 16px "Montserrat", sans-serif;
+      color: $grey-text-color;
+    }
+
+    .data-form-label-additional {
+      font-size: 1.6rem;
+      color: $grey-text-color;
+      margin-bottom: 2rem;
+      max-width: 52.8rem ;
+    }
+
+    .data-form-types {
+      display: flex;
+      align-items: center;
+      max-width: 34rem;
+      box-sizing: border-box;
+      border: 1px solid #519757;
+      border-radius: 3px;
+      text-align: center;
+      font-size: 1.8rem;
+      color: $grey-text-color;
+
+      .data-form-type-item {
+        cursor: pointer;
+        padding: 1.3rem 3.5rem;
+        background: transparent;
+
+        &.active {
+          background: #519057;
+          color: #fff;
+        }
+      }
+    }
+
+    .data-form-inputs {
+      display: grid;
+      gap: .8rem;
+
+      input[type=text] {
+        height: 5.3rem;
+      }
+
+      &.personal-data-inputs {
+        grid-template-columns: repeat(3, 210px);
+      }
+
+      &.address-inputs {
+        grid-template-columns: repeat(2, 125px) 162px;
+        grid-template-rows: 1fr 1fr;
+        grid-template-areas:
+                'street street street'
+                'house entrance apart';
+
+        .street {
+          grid-area: street;
+        }
+
+        .house {
+          grid-area: house;
+        }
+
+        .entrance {
+          grid-area: entrance;
+        }
+
+        .apart {
+          grid-area: apart;
+        }
+      }
+
+      text-area {
+        border: 2px solid #2a592e;
+      }
+    }
+
+
+    .data-form-radio {
+
+
+      .data-form-radio-block {
+        margin-bottom: 1.2rem;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+
+        label {
+          font-size: 1.6rem;
+          color: $grey-text-color;
+        }
+
+        input:checked {
+          + label {
+            font: 500 16px "Montserrat", sans-serif;
+            color: $grey-text-color;
+          }
+        }
+      }
+    }
+  }
+}

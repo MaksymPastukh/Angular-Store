@@ -5,6 +5,8 @@ import {CardComponent} from './card/card.component';
 import {OrderComponent} from './order/order.component';
 import {SharedModule} from "../../shared/shared.module";
 import {CarouselModule} from "ngx-owl-carousel-o";
+import {ReactiveFormsModule} from "@angular/forms";
+import {MatDialogModule} from "@angular/material/dialog";
 
 @NgModule({
   declarations: [
@@ -14,6 +16,8 @@ import {CarouselModule} from "ngx-owl-carousel-o";
   imports: [
     CommonModule,
     SharedModule,
+    ReactiveFormsModule,
+    MatDialogModule,
     OrderRoutingModule,
     CarouselModule,
   ]

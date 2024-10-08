@@ -145,6 +145,56 @@ header.header {
           left: 1.5rem;
           top: 1.1rem;
         }
+
+        .search-products {
+          position: absolute;
+          right: 0;
+          top: 6.1rem;
+          width: 40rem;
+          background-color: white;
+          border-radius: .5rem;
+          border: 1px solid #ebebeb;
+
+          .search-product {
+            padding: 1.2rem 2.3rem;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            background: #ffffff;
+
+            &:first-child {
+              border-top-left-radius: 5px;
+              border-top-right-radius: 5px;
+            }
+
+            &:last-child {
+              border-bottom-left-radius: 5px;
+              border-bottom-right-radius: 5px;
+            }
+
+            .search-product-image {
+              width: 4rem;
+              height: 4rem;
+              border-radius: 5px;
+              margin-right: 2.5rem;
+              background-position: center;
+              background-size: cover;
+            }
+
+            .search-product-name {
+              font: 400 16px "Montserrat", sans-serif;
+              color: #8e8e8e;
+            }
+
+            &:hover {
+              background: #ebebeb;
+
+              .search-product-name {
+                color: #000;
+              }
+            }
+          }
+        }
       }
     }
   }

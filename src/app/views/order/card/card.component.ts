@@ -47,7 +47,8 @@ export class CardComponent implements OnInit {
   count: number = 1
 
 
-  constructor(private productService: ProductService, private cardService: CardService,) {
+  constructor(private productService: ProductService,
+              private cardService: CardService) {
   }
 
   ngOnInit(): void {
@@ -62,6 +63,7 @@ export class CardComponent implements OnInit {
           throw new Error((data as DefaultResponseType).message)
         }
         this.card = data as CardProductType
+
         this.calculateTotal()
       })
   }
