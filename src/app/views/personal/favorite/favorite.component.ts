@@ -6,6 +6,7 @@ import {environment} from "../../../../environments/environment";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {CardProductType} from "../../../../types/card-product.type";
 import {CardService} from "../../../shared/services/card.service";
+import {tap} from "rxjs";
 
 
 @Component({
@@ -15,8 +16,8 @@ import {CardService} from "../../../shared/services/card.service";
 })
 export class FavoriteComponent implements OnInit {
   public favoriteProducts: FavoriteType[] = []
+  public favorite: FavoriteType | null = null
   card: CardProductType | null = null
-  @Input() countInCard: number | undefined = 0  // Получаем актуальное количество товаров
   public serverStaticPath: string = environment.serverStaticPath
   count: number = 1
 
@@ -27,44 +28,42 @@ export class FavoriteComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     this.favoriteService.getFavorites()
-      .subscribe((data: FavoriteType[] | DefaultResponseType) => {
+      .pipe(
+        tap((data: FavoriteType[] | DefaultResponseType) => {
+          if (!data.hasOwnProperty('error')) {
 
+            (data as FavoriteType[]).forEach((item) => {
+              item.quantity = 0
+            })
+          }
+        })
+      )
+      .subscribe((data: FavoriteType[] | DefaultResponseType) => {
         if ((data as DefaultResponseType).error !== undefined) {
           const error: string = (data as DefaultResponseType).message
-
           throw new Error(error)
         }
         this.favoriteProducts = data as FavoriteType[]
-      })
 
-    this.cardService.getCard()
-      .subscribe((data: CardProductType | DefaultResponseType) => {
-        if ((data as DefaultResponseType).error !== undefined) {
-          throw new Error((data as DefaultResponseType).message)
-        }
-        this.card = data as CardProductType
-        this.favoriteProducts.map((product: FavoriteType) => {
-          if (this.card && this.card.items.length > 0) {
-            const countInProductCard = this.card.items.find(items => items.product.id === product.id)
-            if (countInProductCard) {
-              product.quantity = countInProductCard.quantity as number
+        this.cardService.getCard()
+          .subscribe((data: CardProductType | DefaultResponseType) => {
+            if ((data as DefaultResponseType).error !== undefined) {
+              throw new Error((data as DefaultResponseType).message)
             }
-          }
-        })
-        this.favoriteProducts.find(item => {
-          this.countInCard = item.quantity
+            this.card = data as CardProductType
 
-          if (this.countInCard && this.countInCard > 1) {
-            this.count = this.countInCard
-          }
-        })
-
-
-        // console.log(this.countInCard)
+            this.favoriteProducts.map(product => {
+              if (this.card && this.card.items.length > 0) {
+                this.card.items.forEach(item => {
+                  if (item.product.id === product.id) {
+                    product.quantity = item.quantity
+                  }
+                })
+              }
+            })
+          })
       })
-
   }
 
   addToCard(id: string) {
@@ -73,6 +72,17 @@ export class FavoriteComponent implements OnInit {
         if ((data as DefaultResponseType).error !== undefined) {
           throw new Error((data as DefaultResponseType).message)
         }
+
+        this.card = data as CardProductType
+        this.favoriteProducts.map(product => {
+          if (this.card && this.card.items.length > 0) {
+            this.card.items.forEach(item => {
+              if (item.product.id === product.id) {
+                product.quantity = item.quantity
+              }
+            })
+          }
+        })
       })
   }
 
@@ -84,7 +94,17 @@ export class FavoriteComponent implements OnInit {
           if ((data as DefaultResponseType).error !== undefined) {
             throw new Error((data as DefaultResponseType).message)
           }
+
           this.card = data as CardProductType
+          this.favoriteProducts.map(product => {
+            if (this.card && this.card.items.length > 0) {
+              this.card.items.forEach(item => {
+                if (item.product.id === product.id) {
+                  product.quantity = item.quantity
+                }
+              })
+            }
+          })
         })
     }
   }

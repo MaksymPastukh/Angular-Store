@@ -9,7 +9,6 @@ import {OwlOptions} from "ngx-owl-carousel-o";
   styleUrls: ['./main.component.scss']
 })
 export class MainComponent implements OnInit {
-
   public products: ProductType[] = []
   public reviews = [
     {

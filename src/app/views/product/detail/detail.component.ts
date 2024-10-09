@@ -9,7 +9,6 @@ import {DefaultResponseType} from "../../../../types/default-response.type";
 import {CardService} from "../../../shared/services/card.service";
 import {FavoriteService} from "../../../shared/services/favorite.service";
 import {FavoriteType} from "../../../../types/favorite.type";
-import * as inspector from "node:inspector";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {HttpErrorResponse} from "@angular/common/http";
 import {AuthService} from "../../../core/auth/auth.service";
@@ -52,6 +51,7 @@ export class DetailComponent implements OnInit {
   public product!: ProductType
   public serverStaticPath = environment.serverStaticPath
   card: CardProductType | null = null
+  isLogged: boolean = false
 
 
   constructor(private productService: ProductService,
@@ -59,8 +59,8 @@ export class DetailComponent implements OnInit {
               private cardService: CardService,
               private favoriteService: FavoriteService,
               private _snackBar: MatSnackBar,
-              private authService: AuthService
-  ) {
+              private authService: AuthService) {
+    this.isLogged = this.authService.getIsLoggedIn()
   }
 
   ngOnInit(): void {

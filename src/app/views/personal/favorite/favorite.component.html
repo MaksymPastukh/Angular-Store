@@ -12,12 +12,10 @@
         <div class="favorite-product-images" style="background-image: url({{serverStaticPath + product.image}})"></div>
         <div class="favorite-product-name">{{ product.name }}</div>
         <div class="favorite-product-price">{{ product.price }} BYN</div>
-        <count-selector [count]="product.quantity"
-                        (onCountChange)="updateCount(product.id, $event)"></count-selector>
-
+        <count-selector [count]="product.quantity" (onCountChange)="updateCount( product.id, $event)"></count-selector>
         <div class="favorite-product-actions">
-          <div class="button"  *ngIf="!countInCard" (click)="addToCard(product.id)">В корзину</div>
-          <button class="button button-transparent button-in-card" *ngIf="countInCard">
+          <div class="button"  *ngIf="product.quantity <= 0" (click)="addToCard(product.id)">В корзину</div>
+          <button class="button button-transparent button-in-card" *ngIf="product.quantity >= 1">
             <div>В корзинe</div>
           </button>
         </div>

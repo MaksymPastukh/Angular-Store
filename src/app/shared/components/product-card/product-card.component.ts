@@ -22,12 +22,14 @@ export class ProductCardComponent implements OnInit {
   @Input() countInCard: number | undefined = 0  // Получаем актуальное количество товаров
   public serverStaticPath = environment.serverStaticPath
   count: number = 1
+  isLogged: boolean = false
 
   constructor(private cardService: CardService,
               private favoriteService: FavoriteService,
               private _snackBar: MatSnackBar,
               private router: Router,
               private authService: AuthService) {
+    this.isLogged = this.authService.getIsLoggedIn()
   }
 
   ngOnInit(): void {
