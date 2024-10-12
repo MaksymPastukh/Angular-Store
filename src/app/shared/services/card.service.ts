@@ -16,6 +16,7 @@ export class CardService {
 
 
   constructor(private http: HttpClient) {
+    console.log(this.count$)
   }
 
   setCount(count: number) {

@@ -12,7 +12,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
   loginForm = this.fb.group({
     email: ['', [Validators.email, Validators.required]],
     password: ['', [Validators.required]],
@@ -26,8 +26,6 @@ export class LoginComponent implements OnInit {
   ) {
   }
 
-  ngOnInit(): void {
-  }
 
   login(): void {
     if (this.loginForm.valid

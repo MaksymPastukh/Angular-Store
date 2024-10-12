@@ -24,10 +24,9 @@ export class HeaderComponent implements OnInit {
   isShowSearch: boolean = false
   products: ProductType[] = []
   isLogged: boolean = false
-  @Input('category')
-  public categories!: CategoryWithTypeType[]
   public count: number = 0
   public serverStaticPath = environment.serverStaticPath
+  @Input('category') categories!: CategoryWithTypeType[]
 
   constructor(private authService: AuthService,
               private productService: ProductService,
@@ -48,7 +47,6 @@ export class HeaderComponent implements OnInit {
             .subscribe(((data: ProductType[]) => {
               this.products = data
               this.isShowSearch = true
-
             }))
         } else {
           this.products = []
@@ -58,6 +56,15 @@ export class HeaderComponent implements OnInit {
 
     this.authService.isLogged$.subscribe((isLoggedIn: boolean) => {
       this.isLogged = isLoggedIn
+      if(isLoggedIn) {
+        this.cardService.getCardCount()
+          .subscribe((data: CardServiceType | DefaultResponseType) => {
+            if ((data as DefaultResponseType).error !== undefined) {
+              throw new Error((data as DefaultResponseType).message)
+            }
+            this.count = (data as CardServiceType).count
+          })
+      }
     })
 
     this.cardService.getCardCount()
@@ -74,9 +81,7 @@ export class HeaderComponent implements OnInit {
       })
   }
 
-  logout()
-    :
-    void {
+  logout(): void {
     this.authService.logout()
       .subscribe({
         next: (): void => {
@@ -88,12 +93,17 @@ export class HeaderComponent implements OnInit {
       })
   }
 
-  doLogout()
-    :
-    void {
+  doLogout(): void {
     this.authService.removeTokens()
     this.authService.userId = null
     this._snackBar.open(`Вы успешно вышли из системы`)
+    this.cardService.getCardCount()
+      .subscribe((data: CardServiceType | DefaultResponseType) => {
+        if ((data as DefaultResponseType).error !== undefined) {
+          throw new Error((data as DefaultResponseType).message)
+        }
+        this.count = (data as CardServiceType).count
+      })
     this.router.navigate(['/'])
   }
 
@@ -112,10 +122,7 @@ export class HeaderComponent implements OnInit {
   //   }
   // }
 
-  selectProduct(url
-                  :
-                  string
-  ) {
+  selectProduct(url: string) {
     this.router.navigate(["/product/" + url])
     this.searchField.setValue('')
     this.products = []
@@ -129,10 +136,7 @@ export class HeaderComponent implements OnInit {
   // }
 
   @HostListener('document:click', ['$event'])
-  click(event
-          :
-          Event
-  ) {
+  click(event: Event) {
     if (this.isShowSearch && (event.target as HTMLElement).className.indexOf('search-product') === -1) {
       this.isShowSearch = false
     }

@@ -87,7 +87,7 @@
         <div class="detail-info-params">
           <div class="detail-info-params-count">
             <span>Количество: </span>
-            <count-selector [count]="count" (onCountChange)="updateCount($event)"></count-selector>
+            <count-selector [count]="count" (countChange)="updateCount($event)"></count-selector>
           </div>
           <div class="detail-info-params-price">{{ product.price }} BYN</div>
         </div>

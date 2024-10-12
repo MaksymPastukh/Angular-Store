@@ -208,6 +208,5 @@ export class OrderComponent implements OnInit {
 
   closePopup() {
     this.dialogRef?.close()
-    this.router.navigate(['/'])
   }
 }

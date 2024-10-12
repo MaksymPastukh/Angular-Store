@@ -27,9 +27,9 @@
         </div>
         <div class="catalog-sorting-body">
           <div class="catalog-sorting-item"
+               *ngFor="let sortOption of sortingOptions"
                [class.active]="this.activeParams.sort ? this.activeParams.sort === sortOption.value : false"
-               (click)="sort(sortOption.value)"
-               *ngFor="let sortOption of sortingOptions">{{ sortOption.name }}
+               (click)="sort(sortOption.value)">{{ sortOption.name }}
           </div>
         </div>
       </div>
@@ -44,7 +44,8 @@
 
       </div>
       <div class="catalog-products">
-        <product-card [countInCard]="product.countInCard" *ngFor="let product of products" [product]="product"></product-card>
+        <product-card [countInCard]="product.countInCard" *ngFor="let product of products"
+                      [product]="product"></product-card>
       </div>
       <div class="errorFoundProduct" *ngIf="products.length === 0">Товары не найдены. Попробуйте изменить фильтры
         поиска...
@@ -65,7 +66,7 @@
         </svg>
       </div>
       <div class="pagination-pages">
-        <a class="pagination-page" *ngFor="let page of pages"  (click)="openPage(page)"
+        <a class="pagination-page" *ngFor="let page of pages" (click)="openPage(page)"
            [class.active]="this.activeParams.page ? this.activeParams.page === page : (page === 1)">{{ page }}</a>
       </div>
       <div class="pagination-arrow"

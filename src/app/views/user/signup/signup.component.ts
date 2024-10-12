@@ -12,7 +12,7 @@ import {HttpErrorResponse} from "@angular/common/http";
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.scss']
 })
-export class SignupComponent implements OnInit {
+export class SignupComponent {
 
 
   signupForm = this.fb.group({
@@ -26,9 +26,6 @@ export class SignupComponent implements OnInit {
               private authServices: AuthService,
               private _snackBar: MatSnackBar,
               private router: Router) {
-  }
-
-  ngOnInit(): void {
   }
 
   signup(): void {

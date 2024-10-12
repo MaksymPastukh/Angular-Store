@@ -39,7 +39,7 @@
   </div>
 
   <div class="product-card-extra" *ngIf="!isLight">
-    <count-selector [count]="count" (onCountChange)="updateCount($event)"></count-selector>
+    <count-selector [count]="count" (countChange)="updateCount($event)"></count-selector>
 
     <a [routerLink]="'/product/' + product.url" class="product-card-detail">
       <svg width="18" height="4" viewBox="0 0 18 4" fill="none" xmlns="http://www.w3.org/2000/svg">

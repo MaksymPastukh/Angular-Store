@@ -6,13 +6,11 @@ import {CategoryWithTypeType} from "../../../../types/category-with-type.type";
   templateUrl: './footer.component.html',
   styleUrls: ['./footer.component.scss']
 })
-export class FooterComponent implements OnInit{
+export class FooterComponent{
 
-  @Input('category')
-  public categories!: CategoryWithTypeType[]
+  @Input('category') categories!: CategoryWithTypeType[]
 
   constructor() {}
 
-  ngOnInit(): void {}
 
 }

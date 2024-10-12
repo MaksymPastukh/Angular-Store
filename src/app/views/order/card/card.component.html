@@ -12,7 +12,7 @@
                style="background-image: url({{serverStaticPath + cardItem.product.image}})"></div>
           <div class="card-product-name">{{ cardItem.product.name }}</div>
           <count-selector [count]="cardItem.quantity"
-                          (onCountChange)="updateCount(cardItem.product.id, $event)"></count-selector>
+                          (countChange)="updateCount(cardItem.product.id, $event)"></count-selector>
           <div class="card-product-price">{{ cardItem.product.price }} BYN</div>
           <div class="card-product-remove" (click)="updateCount(cardItem.product.id, 0)">
             <svg width="14" height="15" viewBox="0 0 14 15" fill="none"

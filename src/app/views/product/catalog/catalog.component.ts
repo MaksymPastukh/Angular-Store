@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import {ProductService} from "../../../shared/services/product.service";
 import {ProductType} from "../../../../types/product.type";
 import {CategoryService} from "../../../shared/services/category.service";
@@ -57,7 +57,7 @@ export class CatalogComponent implements OnInit {
         }
         this.card = data as CardProductType
 
-        if(this.authService.getIsLoggedIn()) {
+        if (this.authService.getIsLoggedIn()) {
           this.favoriteService.getFavorites()
             .subscribe({
                 next: (data: FavoriteType[] | DefaultResponseType) => {
@@ -70,12 +70,12 @@ export class CatalogComponent implements OnInit {
                   this.favoriteProducts = data as FavoriteType[]
                   this.processCatalog()
                 },
-                error: (error) => {
+                error: () => {
                   this.processCatalog()
                 }
               }
             )
-        } else  {
+        } else {
           this.processCatalog()
         }
 
@@ -153,7 +153,6 @@ export class CatalogComponent implements OnInit {
                         product.countInCard = productInCard.quantity
                       }
                     }
-
                     return product
                   })
                 } else {
@@ -166,11 +165,9 @@ export class CatalogComponent implements OnInit {
                     if (productInFavorite) {
                       product.isInFavorite = true
                     }
-
                     return product
                   })
                 }
-
               })
           })
       })
@@ -222,11 +219,19 @@ export class CatalogComponent implements OnInit {
   }
 
   openNextPage(): void {
+    if (this.activeParams.page === undefined) this.activeParams.page = 1
     if (this.activeParams.page && this.activeParams.page < this.pages.length) {
       this.activeParams.page++
       this.router.navigate(['/catalog'], {
         queryParams: this.activeParams
       })
+    }
+  }
+
+  @HostListener('document:click', ['$event'])
+  click(event: Event): void {
+    if (this.sortingOpen && (event.target as HTMLElement).className.indexOf('catalog-sorting') === -1) {
+      this.sortingOpen = false
     }
   }
 }
